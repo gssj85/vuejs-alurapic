@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 .DS_Store
-node_modules/
-dist/
-npm-debug.log
-yarn-error.log
 
 # Editor directories and files
 .idea
@@ -116,4 +111,3 @@ dist
 
 # TernJS port file
 .tern-port
->>>>>>> 67fa8a353dc8da7a805c09e7f915aa565a85029a
