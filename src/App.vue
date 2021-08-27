@@ -1,90 +1,42 @@
 <template>
-  <div class="corpo">
-    <h1 class="centralizado">{{ titulo }}</h1>
-
-    <input type="search" 
-           class="filtro" 
-           v-on:input="filtro = $event.target.value" 
-           placeholder="Filtre por parte do título">
-
-    <ul class="lista-fotos">
-      <li class="lista-fotos-item" v-for="foto of fotosComFiltro">
-
-        <meu-painel :titulo="foto.titulo">
-            <img class="imagem-responsiva" :src="foto.url" :alt="foto.titulo">
-        </meu-painel>
-       
-      </li>
-    </ul>
-
-  </div>
+    <div class="corpo">
+        <meu-menu :rotas="routes" />
+        <transition name="pagina">
+            <router-view></router-view>
+        </transition>
+    </div>
 </template>
 
 <script>
-    
-    import Painel from './components/shared/painel/Painel.vue';
+import { routes } from "./routes";
+import Menu from "./components/shared/menu/Menu.vue";
 
-    export default {
-        
-        components: {
-            'meu-painel': Painel
-        },
-        
-        data() {
-            return {
-                titulo: "Alurapic",
-                fotos: [],
-                filtro: ''
-            };
-        },
-
-        computed: {
-            fotosComFiltro() {
-                if (this.filtro) {
-                    return [];
-                } else {
-                    return this.fotos;
-                }
-            }
-        },
-
-        created() {
-            this.$http.get("http://localhost:3000/v1/fotos")
-            .then(res => res.json())
-            .then(fotos => this.fotos = fotos, err => console.log(err));
-        }
-    };
-
+export default {
+    components: {
+        "meu-menu": Menu,
+    },
+    data() {
+        return {
+            routes,
+        };
+    },
+};
 </script>
 
 <style>
-    
-    .corpo {
-        font-family: Helvetica, sans-serif;
-        width: 96%;
-        margin: 0 auto;
-    }
+.corpo {
+    font-family: Helvetica, sans-serif;
+    width: 96%;
+    margin: 0 auto;
+}
 
-    .centralizado {
-        text-align: center;
-    }
+.pagina-enter,
+.pagina-leave-active {
+    opacity: 0;
+}
 
-    .lista-fotos {
-        list-style: none;
-
-    }
-
-    .lista-fotos .lista-fotos-item {
-        display: inline-block;
-    }
-
-    .imagem-responsiva {
-        width: 100%;
-    }
-
-    .filtro {
-        display: block;
-        width: 100%;
-    }
-
+.pagina-enter-active,
+.pagina-leave-active {
+    transition: opacity 0.4s;
+}
 </style>
